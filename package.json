@@ -1,0 +1,51 @@
+{
+  "name": "mutation-sentinel",
+  "version": "0.1.0",
+  "description": "Detects mutations",
+  "author": "Dounan Shi",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "immutable",
+    "immutability",
+    "mutation",
+    "optimize",
+    "pure",
+    "purecomponent",
+    "react",
+    "sentinel",
+    "shouldComponentUpdate"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flexport/mutation-sentinel.git"
+  },
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-eslint": "8.0.0",
+    "babel-plugin-transform-flow-comments": "6.22.0",
+    "babel-preset-env": "1.6.0",
+    "babel-preset-stage-2": "6.24.1",
+    "eslint": "4.7.1",
+    "eslint-plugin-flowtype": "2.35.1",
+    "eslint-plugin-jest": "21.1.0",
+    "flow-bin": "0.54.1",
+    "jest": "20.0.4",
+    "rimraf": "2.6.2"
+  },
+  "scripts": {
+    "build": "babel src/ -d dist/",
+    "clean": "rimraf dist",
+    "lint": "eslint src tests",
+    "prepare": "yarn run flow && yarn run lint && yarn run test && yarn run clean && yarn run build",
+    "test": "jest"
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/tests/**/*.js"
+    ]
+  },
+  "main": "./dist/index.js",
+  "files": [
+    "dist"
+  ]
+}
