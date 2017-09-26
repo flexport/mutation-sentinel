@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Detects mutations",
   "author": "Dounan Shi",
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "keywords": [
     "immutable",
     "immutability",

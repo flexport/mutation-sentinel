@@ -179,4 +179,6 @@ formData.get("wrappedFile");
 
 ## Alternatives
 
-Another option is to use static analysis to detect mutations (e.g. [eslint-plugin-immutable](https://github.com/jhusain/eslint-plugin-immutable)). For us, this detected too many false positives, and would have required a large effort to filter through all the errors to see which ones actually mattered to us. This approach also didn’t allow us to easily remove mutations incrementally.
+Another option is to use static analysis to detect mutations (e.g. [eslint-plugin-immutable](https://github.com/jhusain/eslint-plugin-immutable)).
+
+For us, this approach surfaced too many mutations and did not allow us to easily remove mutations on a route by route basis.
