@@ -111,10 +111,11 @@ export default function makeSentinel<T>(value: T): T {
 
   const sentinel = new Proxy(value, {
     get: (target, property, receiver) => {
-      if (_canMakeNestedSentinel(target, property)) {
-        return makeSentinel(target[property]);
+      const targetVal = target[property];
+      if (_canMakeNestedSentinel(target, property, targetVal)) {
+        return makeSentinel(targetVal);
       } else {
-        return target[property];
+        return targetVal;
       }
     },
     defineProperty: (target, property, descriptor) => {
@@ -189,7 +190,18 @@ export default function makeSentinel<T>(value: T): T {
  * we don't need to check if a non-writable and non-configurable property with
  * the same name exists up the prototype chain.
  */
-function _canMakeNestedSentinel<T>(target: T, property: string): boolean {
+function _canMakeNestedSentinel<T>(
+  target: T,
+  property: string,
+  targetVal: mixed
+): boolean {
+  if (
+    targetVal == null ||
+    (typeof targetVal !== "object" && typeof targetVal !== "function") ||
+    _knownSentinels.has(targetVal)
+  ) {
+    return false;
+  }
   const descriptor = Object.getOwnPropertyDescriptor(target, property);
   return descriptor && (descriptor.writable || descriptor.configurable);
 }
