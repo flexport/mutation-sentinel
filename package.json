@@ -1,6 +1,6 @@
 {
   "name": "mutation-sentinel",
-  "version": "1.0.2",
+  "version": "1.0.6",
   "description": "Detects mutations",
   "author": "Dounan Shi",
   "license": "MIT",
