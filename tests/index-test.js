@@ -3,9 +3,10 @@
 import makeSentinel, {
   configureSentinels,
   isSentinel,
-  _globalOpts,
   type SentinelOpts,
-} from "../src/makeSentinel";
+} from "../src";
+
+import {_globalOpts} from "../src/makeSentinel";
 
 const withUpdatedSentinelOpts = (opts: SentinelOpts, body: () => void) => {
   const backup = {..._globalOpts};

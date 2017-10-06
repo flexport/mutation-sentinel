@@ -1,6 +1,6 @@
 // @flow
 
-import makeSentinel, {configureSentinels} from "./makeSentinel";
+import makeSentinel, {configureSentinels, isSentinel} from "./makeSentinel";
 
 import type {
   ShouldIgnore as _ShouldIgnore,
@@ -11,7 +11,7 @@ import type {
 
 export default makeSentinel;
 
-export {configureSentinels};
+export {configureSentinels, isSentinel};
 
 export type ShouldIgnore = _ShouldIgnore;
 export type Mutation = _Mutation;
