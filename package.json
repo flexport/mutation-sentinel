@@ -37,7 +37,7 @@
     "build": "babel src/ -d dist/",
     "clean": "rimraf dist",
     "lint": "eslint src tests",
-    "prepare": "yarn run flow && yarn run lint && yarn run test && yarn run clean && yarn run build",
+    "prepublishOnly": "yarn run flow && yarn run lint && yarn run test && yarn run clean && yarn run build",
     "test": "jest",
     "test:debug": "node --inspect-brk ./node_modules/.bin/jest -i --env jest-environment-node-debug"
   },
