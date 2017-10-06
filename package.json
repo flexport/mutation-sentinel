@@ -30,6 +30,7 @@
     "eslint-plugin-jest": "21.1.0",
     "flow-bin": "0.54.1",
     "jest": "20.0.4",
+    "jest-environment-node-debug": "2.0.0",
     "rimraf": "2.6.2"
   },
   "scripts": {
@@ -37,7 +38,8 @@
     "clean": "rimraf dist",
     "lint": "eslint src tests",
     "prepare": "yarn run flow && yarn run lint && yarn run test && yarn run clean && yarn run build",
-    "test": "jest"
+    "test": "jest",
+    "test:debug": "node --inspect-brk ./node_modules/.bin/jest -i --env jest-environment-node-debug"
   },
   "jest": {
     "testMatch": [

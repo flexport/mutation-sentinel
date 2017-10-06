@@ -2,6 +2,7 @@
 
 import makeSentinel, {
   configureSentinels,
+  isSentinel,
   _globalOpts,
   type SentinelOpts,
 } from "../src/makeSentinel";
@@ -414,7 +415,7 @@ describe("makeSentinel", () => {
     });
   });
 
-  it("Reports mutations to console.warn by default", () => {
+  it("reports mutations to console.warn by default", () => {
     withMockWarn(mockWarn => {
       const obj = {a: 1};
       const sentinel = makeSentinel(obj);
@@ -422,5 +423,32 @@ describe("makeSentinel", () => {
       sentinel.a = 2;
       expect(mockWarn.mock.calls.length).toBe(1);
     });
+  });
+});
+
+describe("isSentinel", () => {
+  it("returns false for null and undefined", () => {
+    expect(isSentinel(null)).toBe(false);
+    expect(isSentinel(undefined)).toBe(false);
+  });
+
+  it("returns false for primititives", () => {
+    expect(isSentinel(true)).toBe(false);
+    expect(isSentinel(1)).toBe(false);
+    expect(isSentinel("hi")).toBe(false);
+  });
+
+  it("returns false for objects", () => {
+    expect(isSentinel({})).toBe(false);
+    expect(isSentinel([])).toBe(false);
+  });
+
+  it("returns false for functions", () => {
+    expect(isSentinel(function() {})).toBe(false);
+  });
+
+  it("returns true for sentinels", () => {
+    const sentinel = makeSentinel({});
+    expect(isSentinel(sentinel)).toBe(true);
   });
 });

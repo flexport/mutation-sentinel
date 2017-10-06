@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### New Features
+- Export `isSentinel` helper function.
+
 ### Bug Fixes
 - Make sure WeakMap is available before use
 
