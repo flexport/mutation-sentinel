@@ -25,6 +25,7 @@ yarn run build
 yarn run flow
 yarn run lint
 yarn run test
+yarn run test:debug
 ```
 
 ## Submitting Changes
