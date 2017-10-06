@@ -1,5 +1,7 @@
 // @flow
 
+import isWeakMapAvailable from "./isWeakMapAvailable";
+
 // =============================================================================
 // Global configuration
 // =============================================================================
@@ -80,11 +82,16 @@ function falseFn() {
 // our code we enforce that we only cache <T, T> key/value pairs (or more
 // specifically, <T, Proxy<T>> pairs).
 type SentinelCache = WeakMap<Observable, any>;
-const _sentinelCache: SentinelCache = new WeakMap();
+const _sentinelCache: SentinelCache | void = isWeakMapAvailable
+  ? new WeakMap()
+  : undefined;
 
 // This really just needs to be a set, but not all browsers that support Proxy
 // support WeakSet, but they all support WeakMap.
-const _knownSentinels: WeakMap<Observable, boolean> = new WeakMap();
+type KnownSentinels = WeakMap<Observable, boolean>;
+const _knownSentinels: KnownSentinels | void = isWeakMapAvailable
+  ? new WeakMap()
+  : undefined;
 
 /**
  * Returns a Proxy for the value if it is possible to watch for mutations on
@@ -95,16 +102,24 @@ const _knownSentinels: WeakMap<Observable, boolean> = new WeakMap();
  */
 export default function makeSentinel<T>(value: T): T {
   if (
+    typeof Proxy === "undefined" ||
+    _sentinelCache == null ||
+    _knownSentinels == null ||
     value == null ||
     (typeof value !== "object" && typeof value !== "function") ||
-    _knownSentinels.has(value) ||
-    _globalOpts.shouldIgnore(value) ||
-    typeof Proxy === "undefined"
+    _globalOpts.shouldIgnore(value)
   ) {
     return value;
   }
 
-  const cachedSentinel = _sentinelCache.get(value);
+  const knownSentinels = _knownSentinels;
+  const sentinelCache = _sentinelCache;
+
+  if (knownSentinels.has(value)) {
+    return value;
+  }
+
+  const cachedSentinel = sentinelCache.get(value);
   if (cachedSentinel != null) {
     return cachedSentinel;
   }
@@ -112,7 +127,7 @@ export default function makeSentinel<T>(value: T): T {
   const sentinel = new Proxy(value, {
     get: (target, property, receiver) => {
       const targetVal = target[property];
-      if (_canMakeNestedSentinel(target, property, targetVal)) {
+      if (_canMakeNestedSentinel(target, property, targetVal, knownSentinels)) {
         return makeSentinel(targetVal);
       } else {
         return targetVal;
@@ -148,7 +163,7 @@ export default function makeSentinel<T>(value: T): T {
       return delete target[property];
     },
     set: (target, property, value, receiver) => {
-      if (!_valueEq(target[property], value, _sentinelCache)) {
+      if (!_valueEq(target[property], value, sentinelCache)) {
         _globalOpts.mutationHandler({
           type: "set",
           target,
@@ -173,8 +188,8 @@ export default function makeSentinel<T>(value: T): T {
     },
   });
 
-  _sentinelCache.set(value, sentinel);
-  _knownSentinels.set(sentinel, true);
+  sentinelCache.set(value, sentinel);
+  knownSentinels.set(sentinel, true);
   return sentinel;
 }
 
@@ -193,12 +208,13 @@ export default function makeSentinel<T>(value: T): T {
 function _canMakeNestedSentinel<T>(
   target: T,
   property: string,
-  targetVal: mixed
+  targetVal: mixed,
+  knownSentinels: KnownSentinels
 ): boolean {
   if (
     targetVal == null ||
     (typeof targetVal !== "object" && typeof targetVal !== "function") ||
-    _knownSentinels.has(targetVal)
+    knownSentinels.has(targetVal)
   ) {
     return false;
   }
