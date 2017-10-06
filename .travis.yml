@@ -5,4 +5,7 @@ script:
   - yarn run flow
   - yarn run lint
   - yarn run test 
+after_success:
+  - yarn global add codecov
+  - codecov
 
