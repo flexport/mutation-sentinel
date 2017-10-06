@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/flexport/mutation-sentinel.svg?branch=master)](https://travis-ci.org/flexport/mutation-sentinel)
+[![codecov](https://codecov.io/gh/flexport/mutation-sentinel/branch/master/graph/badge.svg)](https://codecov.io/gh/flexport/mutation-sentinel)
+
 # Mutation Sentinel
 
 Mutation Sentinel helps you *deeply* detect mutations at runtime and enforce immutability in your codebase.
