@@ -247,3 +247,12 @@ function _defaultMutationHandler(mutation: Mutation): void {
   // eslint-disable-next-line no-console
   console.warn("Mutation detected by a sentinel!", mutation);
 }
+
+export function isSentinel(value: mixed): boolean {
+  return (
+    value != null &&
+    (typeof value === "object" || typeof value === "function") &&
+    _knownSentinels != null &&
+    _knownSentinels.has(value)
+  );
+}
