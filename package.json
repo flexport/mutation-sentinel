@@ -42,6 +42,8 @@
     "test:debug": "node --inspect-brk ./node_modules/.bin/jest -i --env jest-environment-node-debug"
   },
   "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
     "testMatch": [
       "<rootDir>/tests/**/*.js"
     ]
