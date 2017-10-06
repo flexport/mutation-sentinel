@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Bug Fixes
+- Make sure WeakMap is available before use
+
 ## v1.0.2 - 2017-10-05
 - Improve performance by reducing calls to Object.getOwnPropertyDescriptor
 
