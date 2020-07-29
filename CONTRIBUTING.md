@@ -41,3 +41,10 @@ Please try to keep your pull request focused in scope and avoid including unrela
 After you have submitted your pull request, we'll try to get back to you as soon as possible. We may suggest some changes or improvements.
 
 Thank you for contributing!
+
+## Publishing to NPM
+
+1. Make sure the CHANGELOG is updated with the latest changes.
+2. `yarn publish`
+3. `git push --follow-tags`
+
