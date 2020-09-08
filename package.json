@@ -25,7 +25,7 @@
     "babel-plugin-transform-flow-comments": "6.22.0",
     "babel-preset-env": "1.6.0",
     "babel-preset-stage-2": "6.24.1",
-    "eslint": "4.7.1",
+    "eslint": "4.18.2",
     "eslint-plugin-flowtype": "2.35.1",
     "eslint-plugin-jest": "21.1.0",
     "flow-bin": "0.54.1",
